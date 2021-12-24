@@ -6,7 +6,7 @@ const app = express();
 require('dotenv').config();
 
 // Routes
-const usersRouter = require('./api/routes/users');
+const usersRoute = require('./api/routes/users');
 
 // DB init
 mongoose.connect(process.env.MONGODB_URI, () => {
@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/users', usersRouter);
+app.use('/users', usersRoute);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'URL Not Found' });

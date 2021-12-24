@@ -1,10 +1,13 @@
 const router = require('express').Router();
 const UserController = require('../controllers/user');
+const checkAuth = require('../middleware/checkAuth');
 
 router.get('/', (req, res) => {
-    res.json({ USERS: 'USERS' });
+    res.status(204).json({ USERS: 'USERS' });
 });
 
-router.post('/signup', UserController.create_user);
+router.post('/login', checkAuth);
+
+router.post('/signup', checkAuth, UserController.create_user);
 
 module.exports = router;

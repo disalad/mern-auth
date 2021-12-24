@@ -1,7 +1,59 @@
 const jwt = require('jsonwebtoken');
-const UserSchema = require('../models/user');
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 exports.create_user = (req, res, next) => {
-    console.log(req.body);
-    res.json({ TEST: 'TEST' });
+    console.log(req.userData);
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if (user) {
+                return res
+                    .status(409)
+                    .json({ message: 'Auth failed', credentials: req.body, success: false });
+            }
+
+            const accessToken = jwt.sign(
+                { username: req.body.username, email: req.body.email },
+                process.env.JWT_ACCESS_TOKEN
+            );
+            bcrypt
+                .hash(req.body.password, 10)
+                .then(hash => {
+                    const user = new User({
+                        username: req.body.username,
+                        email: req.body.email,
+                        password: hash,
+                        // emailVerified: false,
+                    });
+                    return user.save();
+                })
+                .then(result => {
+                    res.status(201).json({
+                        message: 'Auth successful',
+                        success: true,
+                        accessToken,
+                    });
+                })
+                .catch(err => {
+                    res.status(500).json({ message: err.message, success: false });
+                });
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message, success: false });
+        });
+};
+
+exports.login_user = (req, res, next) => {
+    console.log(req.userData);
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if (!user) {
+                return res
+                    .status(409)
+                    .json({ message: 'Auth failed', credentials: req.body, success: false });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message, success: false });
+        });
 };
