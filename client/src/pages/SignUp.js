@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
 import { useStyles } from '../styles/formStyles';
 import { emailValidation, passwordValidation, usernameValidation } from '../utils/validation';
+import { useAuth } from '../context/AuthContext';
 
 function LogIn() {
     const [firstName, setFirstName] = useState('');
@@ -21,10 +22,16 @@ function LogIn() {
     const [emailErr, setEmailErr] = useState(null);
     const [passwdErr, setPasswdErr] = useState(null);
     const classes = useStyles();
+    const { createUser } = useAuth();
 
     const formSubmitHandler = ev => {
         ev.preventDefault();
-        validateForm() ? console.error('ERROR') : console.warn('SUCCESS');
+        if (validateForm()) {
+            console.warn('SUCCESS');
+            createUser(firstName, secondName, email, password);
+        } else {
+            console.error('ERROR');
+        }
     };
 
     const validateForm = () => {
@@ -134,7 +141,7 @@ function LogIn() {
                         Sign Up
                     </Button>
                 </Box>
-                <Typography component='h2' variant='h6' sx={{ mt: 1, cursor: 'pointer' }}>
+                <Typography component='h6' variant='h6' sx={{ mt: 1, cursor: 'pointer' }}>
                     Already Have an Account?{' '}
                     <Link to='/login' className={classes.link}>
                         Log In

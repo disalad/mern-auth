@@ -92,7 +92,7 @@ function LogIn() {
                         Log In
                     </Button>
                 </Box>
-                <Typography component='h2' variant='h6' sx={{ mt: 1, cursor: 'pointer' }}>
+                <Typography component='h6' variant='h6' sx={{ mt: 1, cursor: 'pointer' }}>
                     Already Have an Account?{' '}
                     <Link to='/signup' className={classes.link}>
                         Sign Up

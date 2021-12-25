@@ -1,6 +1,7 @@
 import { createContext, useEffect, useContext, useState } from 'react';
-// import axios from 'axios';
+import { useNavigate } from 'react-router';
 import HttpClient from '../utils/httpClient';
+import Storage from '../utils/storage';
 
 const AuthContext = createContext();
 
@@ -11,18 +12,15 @@ export function useAuth() {
 function AuthContextProvider({ children }) {
     const [currentUser, setCurrentUser] = useState({});
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // axios
-        //     .get('/users/login')
-        //     .then(result => {
-        //         console.log(result.data);
-        //         setLoading(false);
-        //         setCurrentUser(result.data);
-        //     })
-        //     .catch(err => {
-        //         console.error(err.message);
-        //     });
+        requestAuth();
+        return () => {};
+    }, []);
+
+    function requestAuth() {
+        setLoading(true);
         HttpClient.getAuth()
             .then(result => {
                 console.log(result);
@@ -35,11 +33,22 @@ function AuthContextProvider({ children }) {
             .finally(() => {
                 setLoading(false);
             });
-        return () => {};
-    }, []);
+    }
 
-    function createUser(email, password) {
-        // return createUserWithEmailAndPassword(auth, email, password);
+    function createUser(fname, sname, email, password) {
+        HttpClient.signUp(fname + ' ' + sname, email, password)
+            .then(response => {
+                console.log(response);
+                return Storage.saveToken(response.data.accessToken);
+            })
+            .then(() => {
+                console.log('SAVED');
+                requestAuth();
+                navigate('/');
+            })
+            .catch(err => {
+                console.error(err.message);
+            });
     }
 
     function logInUser(email, password) {
@@ -51,6 +60,7 @@ function AuthContextProvider({ children }) {
     }
 
     const values = {
+        requestAuth,
         createUser,
         currentUser,
         logInUser,
