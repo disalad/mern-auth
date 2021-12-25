@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import { useStyles } from '../styles/formStyles';
 import { emailValidation, passwordValidation, usernameValidation } from '../utils/validation';
 
@@ -43,7 +43,6 @@ function LogIn() {
         } else {
             return false;
         }
-        // return !firstNameError && !secNameError && !emailError && !passwordError ? false : true;
     };
 
     return (
@@ -136,7 +135,10 @@ function LogIn() {
                     </Button>
                 </Box>
                 <Typography component='h2' variant='h6' sx={{ mt: 1, cursor: 'pointer' }}>
-                    Already Have an Account? <Link>Sign Up</Link>
+                    Already Have an Account?{' '}
+                    <Link to='/login' className={classes.link}>
+                        Log In
+                    </Link>
                 </Typography>
             </Box>
         </Container>

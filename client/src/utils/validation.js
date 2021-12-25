@@ -10,7 +10,7 @@ const passwordValidation = password => {
 };
 
 const usernameValidation = username => {
-    return username.length < 6;
+    return username.length < 1;
 };
 
 export { emailValidation, passwordValidation, usernameValidation };

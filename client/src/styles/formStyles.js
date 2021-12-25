@@ -19,6 +19,14 @@ const useStyles = makeStyles(theme => ({
     gridItem: {
         position: 'relative',
     },
+    link: {
+        color: '#000',
+        textDecoration: 'none',
+        textTransform: 'uppercase',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+    },
 }));
 
 export { useStyles };
