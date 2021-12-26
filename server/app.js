@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const app = express();
+const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -22,6 +23,7 @@ app.use(morgan('dev'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);

@@ -23,6 +23,7 @@ exports.create_user = (req, res, next) => {
                         username: req.body.username,
                         email: req.body.email,
                         password: hash,
+                        imgUrl: '/default_dp.png',
                         // emailVerified: false,
                     });
                     return user.save();
