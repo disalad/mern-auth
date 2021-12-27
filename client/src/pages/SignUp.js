@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
-import { useStyles } from '../styles/formStyles';
+import { useStyles } from '../styles/loginStyles';
 import { emailValidation, passwordValidation, usernameValidation } from '../utils/validation';
 import { useAuth } from '../context/AuthContext';
 

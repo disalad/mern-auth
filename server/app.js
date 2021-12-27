@@ -15,6 +15,7 @@ const authRoute = require('./api/routes/auth');
 mongoose.connect(process.env.MONGODB_URI, () => {
     console.log('CONNECTED TO MONGODB');
 });
+mongoose.set('debug', true);
 
 // Middleware
 app.use(cors('*'));

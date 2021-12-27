@@ -55,8 +55,17 @@ function AuthContextProvider({ children }) {
         // return signInWithEmailAndPassword(auth, email, password);
     }
 
-    function signOutUser() {
-        // return signOut(auth);
+    function updateDetails(username) {
+        console.log(currentUser.user.email);
+        HttpClient.updateDetails(currentUser.user.email, { username })
+            .then(result => {
+                console.log(result);
+                requestAuth();
+                navigate('/');
+            })
+            .catch(err => {
+                console.error(err.message);
+            });
     }
 
     const values = {
@@ -64,7 +73,7 @@ function AuthContextProvider({ children }) {
         createUser,
         currentUser,
         logInUser,
-        signOutUser,
+        updateDetails,
     };
 
     if (loading) {

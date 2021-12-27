@@ -24,7 +24,6 @@ exports.create_user = (req, res, next) => {
                         email: req.body.email,
                         password: hash,
                         imgUrl: '/default_dp.png',
-                        // emailVerified: false,
                     });
                     return user.save();
                 })
@@ -56,5 +55,29 @@ exports.login_user = (req, res, next) => {
         })
         .catch(err => {
             res.status(500).json({ message: err.message, success: false });
+        });
+};
+
+exports.edit_details = (req, res, next) => {
+    console.log(req.body.email, { ...req.body.updateProps });
+    User.findOneAndUpdate(
+        { email: req.body.email },
+        { $set: { ...req.body.updateProps } },
+        { new: true }
+    )
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: 'Updating details',
+                userData: req.userData,
+                body: req.body,
+            });
+        })
+        .catch(err => {
+            console.log('Error: ', err.message);
+            res.status(500).json({
+                message: 'Update failed',
+                error: err.message,
+            });
         });
 };

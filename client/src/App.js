@@ -6,6 +6,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 import AuthContextProvider from './context/AuthContext';
 import Dashboard from './pages/Dashboard';
+import EditProfile from './pages/EditProfile';
 
 function App() {
     return (
@@ -20,6 +21,9 @@ function App() {
                     </Route>
                     <Route path='/' element={<PrivateRoute />}>
                         <Route index element={<Dashboard />} />
+                    </Route>
+                    <Route path='/settings/profile' element={<PrivateRoute />}>
+                        <Route index element={<EditProfile />} />
                     </Route>
                 </Routes>
             </AuthContextProvider>

@@ -10,4 +10,6 @@ router.post('/login', checkAuth);
 
 router.post('/signup', UserController.create_user);
 
+router.post('/edit', checkAuth, UserController.edit_details);
+
 module.exports = router;

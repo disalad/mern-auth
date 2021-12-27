@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { useStyles } from '../styles/dashboardStyles';
 
 function Dashboard() {
     const {
@@ -16,29 +17,15 @@ function Dashboard() {
             user: { username, email },
         },
     } = useAuth();
+    const classes = useStyles();
     return (
-        <Box
-            display='flex'
-            width='100vw'
-            height='100vh'
-            alignItems='center'
-            justifyContent='center'
-        >
-            <Card
-                style={{
-                    justifyContent: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '1em',
-                    width: '50vw',
-                }}
-            >
+        <Box className={classes.box}>
+            <Card className={classes.card}>
                 <CardHeader
                     avatar={<Avatar src='/default_dp.png' alt='display picture' />}
-                    style={{ width: 'max-content', height: '1em' }}
+                    className={classes.cardHeader}
                 />
-                <CardContent style={{ width: '100%' }} style={{ textAlign: 'center' }}>
+                <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='div' alignSelf='center'>
                         Username: {username}
                     </Typography>
@@ -48,10 +35,7 @@ function Dashboard() {
                 </CardContent>
                 <CardActions>
                     <Button variant='outlined'>
-                        <Link
-                            to='/settings/profile'
-                            style={{ textDecoration: 'none', color: 'unset' }}
-                        >
+                        <Link to='/settings/profile' className={classes.link}>
                             Edit Profile
                         </Link>
                     </Button>
