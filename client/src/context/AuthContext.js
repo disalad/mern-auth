@@ -55,9 +55,14 @@ function AuthContextProvider({ children }) {
         // return signInWithEmailAndPassword(auth, email, password);
     }
 
-    function updateDetails(username) {
+    function updateDetails(username, file) {
         console.log(currentUser.user.email);
-        HttpClient.updateDetails(currentUser.user.email, { username })
+        const formData = new FormData();
+        console.error(file);
+        formData.append('dp', file);
+        formData.append('username', username);
+        console.warn(formData);
+        HttpClient.updateDetails(formData)
             .then(result => {
                 console.log(result);
                 requestAuth();

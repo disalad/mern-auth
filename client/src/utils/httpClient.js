@@ -20,16 +20,10 @@ class HttpClient {
         return response;
     }
 
-    static async updateDetails(email, updateProps) {
-        const response = await axios.post(
-            '/users/edit',
-            { email, updateProps },
-            {
-                headers: {
-                    Authorization: Storage.getToken(),
-                },
-            }
-        );
+    static async updateDetails(bodyFormData) {
+        const response = await axios.post('/users/edit', bodyFormData, {
+            headers: { 'Content-Type': 'multipart/form-data', Authorization: Storage.getToken() },
+        });
         return response;
     }
 }

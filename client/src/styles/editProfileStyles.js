@@ -29,6 +29,38 @@ const useStyles = makeStyles(theme => ({
         height: '1em',
     },
     cardContent: { width: '100%', textAlign: 'center' },
+    dropZoneOver: {
+        borderStyle: 'solid',
+    },
+    dropZone: {
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+    },
+    gridContainer: { alignItems: 'center', width: '100% !important', marginLeft: '0 !important' },
+    gridItem: {
+        padding: '0 !important',
+        width: '15em',
+        marginTop: '2.5em !important',
+        maxWidth: '15em',
+    },
+    imageUploadSection: {
+        height: '10em',
+        border: '2px dashed #000',
+        marginTop: '1.5em !important',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image: {
+        width: '8em',
+        height: '8em',
+        objectFit: 'cover',
+        borderRadius: '50%',
+        objectPosition: 'center',
+    },
 }));
 
 export { useStyles };

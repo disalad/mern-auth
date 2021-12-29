@@ -14,7 +14,7 @@ import { useStyles } from '../styles/dashboardStyles';
 function Dashboard() {
     const {
         currentUser: {
-            user: { username, email },
+            user: { username, email, imgUrl },
         },
     } = useAuth();
     const classes = useStyles();
@@ -22,7 +22,7 @@ function Dashboard() {
         <Box className={classes.box}>
             <Card className={classes.card}>
                 <CardHeader
-                    avatar={<Avatar src='/default_dp.png' alt='display picture' />}
+                    avatar={<Avatar src={imgUrl} alt='display picture' />}
                     className={classes.cardHeader}
                 />
                 <CardContent className={classes.cardContent}>
