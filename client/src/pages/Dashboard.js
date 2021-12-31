@@ -16,8 +16,10 @@ function Dashboard() {
         currentUser: {
             user: { username, email, imgUrl },
         },
+        deleteUser,
     } = useAuth();
     const classes = useStyles();
+
     return (
         <Box className={classes.box}>
             <Card className={classes.card}>
@@ -39,7 +41,7 @@ function Dashboard() {
                             Edit Profile
                         </Link>
                     </Button>
-                    <Button variant='contained' color='error'>
+                    <Button variant='contained' color='error' onClick={ev => deleteUser(email)}>
                         Delete My Account
                     </Button>
                 </CardActions>

@@ -25,14 +25,12 @@ const upload = multer({
 });
 
 // Routes
-router.get('/', (req, res) => {
-    res.status(204).json({ USERS: 'USERS' });
-});
-
 router.post('/login', UserController.login_user);
 
 router.post('/signup', UserController.create_user);
 
 router.post('/edit', checkAuth, upload.single('dp'), UserController.edit_details);
+
+router.delete('/delete', checkAuth, UserController.delete_user);
 
 module.exports = router;

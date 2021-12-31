@@ -15,6 +15,7 @@ function AuthContextProvider({ children }) {
 
     useEffect(() => {
         requestAuth();
+        return () => {};
     }, []);
 
     function requestAuth() {
@@ -25,7 +26,6 @@ function AuthContextProvider({ children }) {
                 setCurrentUser(result.data);
             })
             .catch(err => {
-                console.error(err.message);
                 setCurrentUser(null);
             })
             .finally(() => {
@@ -40,9 +40,7 @@ function AuthContextProvider({ children }) {
                 requestAuth();
                 navigate('/');
             })
-            .catch(err => {
-                console.error(err.message);
-            });
+            .catch(err => {});
     }
 
     function logInUser(email, password) {
@@ -52,9 +50,7 @@ function AuthContextProvider({ children }) {
                 requestAuth();
                 navigate('/');
             })
-            .catch(err => {
-                console.error(err.message);
-            });
+            .catch(err => {});
     }
 
     function updateDetails(username, file) {
@@ -68,9 +64,17 @@ function AuthContextProvider({ children }) {
                 requestAuth();
                 navigate('/');
             })
-            .catch(err => {
-                console.error(err.message);
-            });
+            .catch(err => {});
+    }
+
+    function deleteUser(email) {
+        HttpClient.deleteUser(email)
+            .then(result => {
+                console.log(result);
+                requestAuth();
+                navigate('/login');
+            })
+            .catch(err => {});
     }
 
     const values = {
@@ -79,6 +83,7 @@ function AuthContextProvider({ children }) {
         currentUser,
         logInUser,
         updateDetails,
+        deleteUser,
     };
 
     if (loading) {

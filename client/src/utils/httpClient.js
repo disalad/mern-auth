@@ -44,6 +44,18 @@ class HttpClient {
         });
         return response;
     }
+
+    static async deleteUser(email) {
+        console.log(email);
+        const response = await axios({
+            url: '/users/delete',
+            method: 'DELETE',
+            data: { email },
+            withCredentials: true,
+            credentials: 'include',
+        });
+        return response;
+    }
 }
 
 export default HttpClient;

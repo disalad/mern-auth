@@ -119,3 +119,20 @@ exports.edit_details = (req, res, next) => {
             });
         });
 };
+
+exports.delete_user = (req, res, next) => {
+    User.findOneAndDelete({ email: req.body.email })
+        .then(result => {
+            res.clearCookie('JWT_ACCESS_TOKEN');
+            res.status(201).json({
+                message: 'Delete success',
+                success: true,
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: 'Delete failed',
+                success: false,
+            });
+        });
+};
