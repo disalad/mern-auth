@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const fs = require('fs');
+const console = require('better-console');
 
 exports.create_user = (req, res, next) => {
     console.log(req.userData);
@@ -29,10 +30,10 @@ exports.create_user = (req, res, next) => {
                     return user.save();
                 })
                 .then(result => {
+                    res.cookie('JWT_ACCESS_TOKEN', accessToken, { httpOnly: true });
                     res.status(201).json({
                         message: 'Auth successful',
                         success: true,
-                        accessToken,
                     });
                 })
                 .catch(err => {
@@ -76,14 +77,12 @@ exports.edit_details = (req, res, next) => {
             req.file.originalname.split(' ').join('');
         fs.renameSync(req.file.path, fname);
     }
-    console.log('Line 76', req.body, fname, req.file);
     const upadateProps = {
         ...req.body,
         ...(fname && { imgUrl: fname.substr(7) }),
     };
     User.findOneAndUpdate({ email: req.userData.email }, { $set: upadateProps }, { new: true })
         .then(result => {
-            console.log(result);
             res.status(201).json({
                 message: 'Updating details',
                 userData: req.userData,
@@ -92,7 +91,6 @@ exports.edit_details = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log('Error: ', err.message);
             res.status(500).json({
                 message: 'Update failed',
                 error: err.message,

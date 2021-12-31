@@ -1,7 +1,6 @@
 import { createContext, useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import HttpClient from '../utils/httpClient';
-import Storage from '../utils/storage';
 
 const AuthContext = createContext();
 
@@ -39,10 +38,6 @@ function AuthContextProvider({ children }) {
         HttpClient.signUp(fname + ' ' + sname, email, password)
             .then(response => {
                 console.log(response);
-                return Storage.saveToken(response.data.accessToken);
-            })
-            .then(() => {
-                console.log('SAVED');
                 requestAuth();
                 navigate('/');
             })

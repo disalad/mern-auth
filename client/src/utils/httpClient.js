@@ -1,10 +1,11 @@
 import axios from 'axios';
-import Storage from './storage';
+axios.defaults.withCredentials = true;
 
 class HttpClient {
     static async getAuth() {
         const response = await axios.get('/auth', {
-            headers: { Authorization: Storage.getToken() },
+            withCredentials: true,
+            credentials: 'include',
         });
         return response;
     }
@@ -14,15 +15,21 @@ class HttpClient {
             '/users/signup',
             { username, email, password },
             {
-                headers: { Authorization: Storage.getToken() },
+                withCredentials: true,
+                credentials: 'include',
             }
         );
         return response;
     }
 
     static async updateDetails(bodyFormData) {
-        const response = await axios.post('/users/edit', bodyFormData, {
-            headers: { 'Content-Type': 'multipart/form-data', Authorization: Storage.getToken() },
+        const response = await axios({
+            url: '/users/edit',
+            method: 'POST',
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+            withCredentials: true,
+            credentials: 'include',
         });
         return response;
     }
