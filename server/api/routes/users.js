@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
     res.status(204).json({ USERS: 'USERS' });
 });
 
-router.post('/login', checkAuth);
+router.post('/login', UserController.login_user);
 
 router.post('/signup', UserController.create_user);
 

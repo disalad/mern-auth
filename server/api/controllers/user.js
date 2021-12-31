@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const fs = require('fs');
 const console = require('better-console');
+const user = require('../models/user');
 
 exports.create_user = (req, res, next) => {
     console.log(req.userData);
@@ -13,7 +14,6 @@ exports.create_user = (req, res, next) => {
                     .status(409)
                     .json({ message: 'Auth failed', credentials: req.body, success: false });
             }
-
             const accessToken = jwt.sign(
                 { username: req.body.username, email: req.body.email },
                 process.env.JWT_ACCESS_TOKEN
@@ -32,21 +32,23 @@ exports.create_user = (req, res, next) => {
                 .then(result => {
                     res.cookie('JWT_ACCESS_TOKEN', accessToken, { httpOnly: true });
                     res.status(201).json({
-                        message: 'Auth successful',
+                        message: 'Auth success',
                         success: true,
                     });
                 })
                 .catch(err => {
-                    res.status(500).json({ message: err.message, success: false });
+                    res.status(500).json({
+                        message: 'Auth failed',
+                        success: false,
+                    });
                 });
         })
         .catch(err => {
-            res.status(500).json({ message: err.message, success: false });
+            res.status(500).json({ message: 'Auth failed', success: false });
         });
 };
 
 exports.login_user = (req, res, next) => {
-    console.log(req.userData);
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -54,9 +56,29 @@ exports.login_user = (req, res, next) => {
                     .status(409)
                     .json({ message: 'Auth failed', credentials: req.body, success: false });
             }
+            return user;
+        })
+        .then(user => {
+            return bcrypt.compare(req.body.password, user.password);
+        })
+        .then(result => {
+            const accessToken = jwt.sign(
+                { username: req.body.username, email: req.body.email },
+                process.env.JWT_ACCESS_TOKEN
+            );
+            if (result) {
+                res.cookie('JWT_ACCESS_TOKEN', accessToken, { httpOnly: true });
+                res.status(201).json({
+                    message: 'Auth success',
+                    success: true,
+                });
+            } else {
+                throw new Error();
+            }
         })
         .catch(err => {
-            res.status(500).json({ message: err.message, success: false });
+            console.error(err.message);
+            res.status(409).json({ message: 'Auth failed', credentials: req.body, success: false });
         });
 };
 

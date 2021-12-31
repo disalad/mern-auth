@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
 import { useStyles } from '../styles/loginStyles';
 import { emailValidation, passwordValidation } from '../utils/validation';
+import { useAuth } from '../context/AuthContext';
 
 function LogIn() {
     const [email, setEmail] = useState('');
@@ -17,10 +18,16 @@ function LogIn() {
     const [emailErr, setEmailErr] = useState(null);
     const [passwdErr, setPasswdErr] = useState(null);
     const classes = useStyles();
+    const { logInUser } = useAuth();
 
     const formSubmitHandler = ev => {
         ev.preventDefault();
-        validateForm() ? console.warn('SUCCESS') : console.error('ERROR');
+        if (validateForm()) {
+            console.warn('SUCCESS');
+            logInUser(email, password);
+        } else {
+            console.error('ERROR');
+        }
     };
 
     const validateForm = () => {

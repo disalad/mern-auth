@@ -21,7 +21,6 @@ mongoose.connect(process.env.MONGODB_URI, () => {
 mongoose.set('debug', true);
 
 // Middleware
-// app.use(cors('*'));
 app.use(cookieParser());
 app.use(
     cors({

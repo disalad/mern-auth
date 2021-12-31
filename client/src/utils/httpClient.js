@@ -33,6 +33,17 @@ class HttpClient {
         });
         return response;
     }
+
+    static async logIn(email, password) {
+        const response = await axios({
+            url: '/users/login',
+            method: 'POST',
+            data: { email: email, password: password },
+            withCredentials: true,
+            credentials: 'include',
+        });
+        return response;
+    }
 }
 
 export default HttpClient;

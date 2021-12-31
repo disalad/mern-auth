@@ -15,7 +15,6 @@ function AuthContextProvider({ children }) {
 
     useEffect(() => {
         requestAuth();
-        return () => {};
     }, []);
 
     function requestAuth() {
@@ -47,16 +46,22 @@ function AuthContextProvider({ children }) {
     }
 
     function logInUser(email, password) {
-        // return signInWithEmailAndPassword(auth, email, password);
+        HttpClient.logIn(email, password)
+            .then(response => {
+                console.log(response);
+                requestAuth();
+                navigate('/');
+            })
+            .catch(err => {
+                console.error(err.message);
+            });
     }
 
     function updateDetails(username, file) {
-        console.log(currentUser.user.email);
         const formData = new FormData();
         console.error(file);
         formData.append('dp', file);
         formData.append('username', username);
-        console.warn(formData);
         HttpClient.updateDetails(formData)
             .then(result => {
                 console.log(result);
