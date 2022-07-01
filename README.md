@@ -26,7 +26,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/disaladamsas/node-react-auth.git
+   git clone https://github.com/disalad/mern-auth.git
    ```
 2. Install NPM packages for both client and server
    ```sh
@@ -54,6 +54,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Disala - damsasdisala@gmail.com
-
-Project Link: [https://github.com/disaladamsas/node-react-auth](https://github.com/disaladamsas/node-react-auth)
+Project Link: [https://github.com/disalad/mernauth](https://github.com/disalad/mern-auth)
